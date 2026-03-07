@@ -1,0 +1,170 @@
+.detail-page {
+  min-height: 100dvh;
+  background: #FAFAF8;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-main {
+  flex: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: 48px;
+}
+
+/* Header actions (edit + delete) */
+.detail-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.detail-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: none;
+  color: #A09890;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.detail-action-btn:hover {
+  background: #F0EDE8;
+  color: #5A7A5C;
+}
+
+.detail-action-btn--delete:hover {
+  background: #FFF0EE;
+  color: #C07070;
+}
+
+/* Photo */
+.detail-photo-wrap {
+  width: 100%;
+  background: #F0EDE8;
+}
+
+.detail-photo {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  display: block;
+}
+
+.detail-photo--clickable {
+  cursor: zoom-in;
+}
+
+.detail-photo-empty {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C0B8B0;
+}
+
+/* Body */
+.detail-body {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-date {
+  font-size: 13px;
+  color: #A09890;
+  letter-spacing: 0.02em;
+}
+
+.detail-name {
+  font-size: 28px;
+  font-weight: 500;
+  color: #2C2C2C;
+  margin: 0;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+
+.detail-status-row {
+  display: flex;
+  align-items: center;
+}
+
+.detail-status-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 16px;
+  background: #EAF2EA;
+  color: #5A8060;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Memo */
+.detail-memo-section {
+  padding-top: 8px;
+  border-top: 1px solid #EAE6E0;
+}
+
+.detail-memo-label {
+  font-size: 12px;
+  color: #A09890;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.detail-memo {
+  font-size: 16px;
+  color: #3C3C3C;
+  line-height: 1.75;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* 前後ナビゲーション */
+.detail-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 8px;
+  border-top: 1px solid #EAE6E0;
+  margin-top: 8px;
+}
+
+.detail-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  color: #7A9E7E;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.detail-nav-btn:hover:not(:disabled) {
+  background: #F0EDE8;
+}
+
+.detail-nav-btn:disabled {
+  color: #D0C8C0;
+  cursor: default;
+}
+
+.detail-nav-count {
+  font-size: 12px;
+  color: #C0B8B0;
+  letter-spacing: 0.04em;
+}

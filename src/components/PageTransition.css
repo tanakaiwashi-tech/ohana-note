@@ -1,0 +1,35 @@
+.page-transition {
+  width: 100%;
+}
+
+/* 前進: 右から滑り込む */
+.page-transition--forward {
+  animation: page-from-right 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 後退: 左から滑り込む */
+.page-transition--back {
+  animation: page-from-left 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes page-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes page-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

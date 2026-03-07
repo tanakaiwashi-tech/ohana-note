@@ -1,0 +1,16 @@
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-field-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #A09890;
+  letter-spacing: 0.08em;
+}
+
+.form-field-content {
+  /* content area */
+}

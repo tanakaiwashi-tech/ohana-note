@@ -1,0 +1,90 @@
+.new-record-page {
+  min-height: 100dvh;
+  background: #FAFAF8;
+  display: flex;
+  flex-direction: column;
+}
+
+.new-record-main {
+  flex: 1;
+  padding: 24px 16px 60px;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.new-record-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Text inputs */
+.text-input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1.5px solid #DDD9D4;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 16px;
+  color: #2C2C2C;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+  font-family: inherit;
+  -webkit-appearance: none;
+}
+
+.text-input::placeholder {
+  color: #C0B8B0;
+}
+
+.text-input:focus {
+  border-color: #7A9E7E;
+  box-shadow: 0 0 0 3px rgba(122, 158, 126, 0.12);
+}
+
+.text-input--textarea {
+  resize: none;
+  line-height: 1.6;
+}
+
+/* Save button */
+.save-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  border: none;
+  background: #7A9E7E;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease, opacity 0.15s ease;
+  letter-spacing: 0.04em;
+  margin-top: 8px;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #6B9070;
+}
+
+.save-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.save-btn:disabled {
+  background: #D0CCC8;
+  cursor: not-allowed;
+}
+
+.save-btn--saved {
+  background: #5A8A60 !important;
+}
+
+.save-note {
+  text-align: center;
+  font-size: 13px;
+  color: #B0A8A0;
+  margin: 0;
+}

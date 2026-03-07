@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="112" fill="#F5F0EB"/>
+  <!-- 5 petals: each ellipse centered at (0,-90) rotated by 72° increments -->
+  <g transform="translate(256,256)">
+    <ellipse cx="0" cy="-90" rx="46" ry="76" fill="#7A9E7E" transform="rotate(0)"/>
+    <ellipse cx="0" cy="-90" rx="46" ry="76" fill="#7A9E7E" transform="rotate(72)"/>
+    <ellipse cx="0" cy="-90" rx="46" ry="76" fill="#7A9E7E" transform="rotate(144)"/>
+    <ellipse cx="0" cy="-90" rx="46" ry="76" fill="#7A9E7E" transform="rotate(216)"/>
+    <ellipse cx="0" cy="-90" rx="46" ry="76" fill="#7A9E7E" transform="rotate(288)"/>
+    <!-- Center -->
+    <circle cx="0" cy="0" r="60" fill="#E8C86A"/>
+    <circle cx="0" cy="0" r="42" fill="#D4A847"/>
+  </g>
+</svg>

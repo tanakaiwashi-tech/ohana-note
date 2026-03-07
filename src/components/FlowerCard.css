@@ -1,0 +1,130 @@
+.flower-card {
+  display: flex;
+  gap: 14px;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 14px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border: 1px solid #F0EDE8;
+}
+
+.flower-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+  transform: translateY(-1px);
+}
+
+.flower-card:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.flower-card-photo {
+  flex-shrink: 0;
+  width: 88px;
+  height: 88px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #F5F2EE;
+}
+
+.flower-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.flower-card-no-photo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C8C0B8;
+}
+
+.flower-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.flower-card-date {
+  font-size: 11px;
+  color: #A09890;
+  letter-spacing: 0.02em;
+}
+
+.flower-card-name {
+  font-size: 17px;
+  font-weight: 500;
+  color: #2C2C2C;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.02em;
+}
+
+.flower-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 2px;
+}
+
+.flower-card-status {
+  font-size: 12px;
+  color: #7A9E7E;
+  font-weight: 500;
+}
+
+.flower-card-memo {
+  font-size: 12px;
+  color: #8C8C8C;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Grid variant ── */
+.flower-card--grid {
+  flex-direction: column;
+  padding: 0;
+  gap: 0;
+}
+
+.flower-card-photo--grid {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1.1;
+  border-radius: 0;
+  flex-shrink: 0;
+}
+
+.flower-card-body--grid {
+  padding: 10px 12px 12px;
+  gap: 3px;
+}
+
+.flower-card-name--grid {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flower-card-grid-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.flower-card-grid-date {
+  font-size: 11px;
+  color: #A09890;
+  letter-spacing: 0.01em;
+}

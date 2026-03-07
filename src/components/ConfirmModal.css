@@ -1,0 +1,84 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.28);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 200;
+  animation: overlay-in 0.18s ease;
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 480px;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 32px 24px 40px;
+  animation: sheet-in 0.22s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@keyframes sheet-in {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #2C2C2C;
+  text-align: center;
+  margin: 0 0 8px;
+  line-height: 1.5;
+}
+
+.modal-message {
+  font-size: 14px;
+  color: #9A9090;
+  text-align: center;
+  margin: 0 0 28px;
+  line-height: 1.65;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.02em;
+  transition: opacity 0.12s ease;
+}
+
+.modal-btn:active {
+  opacity: 0.72;
+}
+
+.modal-btn--cancel {
+  background: #F5F2EE;
+  color: #6A6A6A;
+}
+
+.modal-btn--danger {
+  background: #E86868;
+  color: #fff;
+}
+
+.modal-btn--confirm {
+  background: #7A9E7E;
+  color: #fff;
+}
