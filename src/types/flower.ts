@@ -31,3 +31,8 @@ export type FlowerRecord = {
   memo: string
   sourceType?: 'home' | 'outing'
 }
+
+export const SOURCE_LABELS: Record<'home' | 'outing', string> = {
+  home: '庭・ベランダ',
+  outing: '外で',
+}

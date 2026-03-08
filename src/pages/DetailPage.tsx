@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { FlowerRecord } from '../types/flower'
-import { STATUS_LABELS } from '../types/flower'
+import { STATUS_LABELS, SOURCE_LABELS } from '../types/flower'
 import { Header } from '../components/Header'
 import { ConfirmModal } from '../components/ConfirmModal'
 import { PhotoViewer } from '../components/PhotoViewer'
@@ -31,7 +31,6 @@ export function DetailPage({ record, records, onBack, onEdit, onDelete, onNaviga
     minute: '2-digit',
   })
 
-  // 前後ナビゲーション
   const currentIndex = records ? records.findIndex(r => r.id === record.id) : -1
   const prevRecord = records && currentIndex > 0 ? records[currentIndex - 1] : null
   const nextRecord = records && currentIndex >= 0 && currentIndex < records.length - 1 ? records[currentIndex + 1] : null
@@ -74,7 +73,7 @@ export function DetailPage({ record, records, onBack, onEdit, onDelete, onNaviga
             <img
               className="detail-photo detail-photo--clickable"
               src={record.photoUrl}
-              alt={record.flowerName || '花の写真'}
+              alt={record.flowerName || '草花の写真'}
               onClick={() => setShowPhotoViewer(true)}
             />
           ) : (
@@ -102,6 +101,11 @@ export function DetailPage({ record, records, onBack, onEdit, onDelete, onNaviga
             <span className="detail-status-badge">
               {STATUS_LABELS[record.status]}
             </span>
+            {record.sourceType && (
+              <span className="detail-source-badge">
+                {SOURCE_LABELS[record.sourceType]}
+              </span>
+            )}
           </div>
 
           {record.memo && (
@@ -119,12 +123,12 @@ export function DetailPage({ record, records, onBack, onEdit, onDelete, onNaviga
               className="detail-nav-btn"
               onClick={() => prevRecord && onNavigate(prevRecord.id)}
               disabled={!prevRecord}
-              aria-label="前の花"
+              aria-label="前の草花"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="15 18 9 12 15 6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              前の花
+              前の草花
             </button>
             <span className="detail-nav-count">
               {currentIndex + 1} / {records.length}
@@ -133,9 +137,9 @@ export function DetailPage({ record, records, onBack, onEdit, onDelete, onNaviga
               className="detail-nav-btn"
               onClick={() => nextRecord && onNavigate(nextRecord.id)}
               disabled={!nextRecord}
-              aria-label="次の花"
+              aria-label="次の草花"
             >
-              次の花
+              次の草花
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="9 18 15 12 9 6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -144,16 +148,14 @@ export function DetailPage({ record, records, onBack, onEdit, onDelete, onNaviga
         )}
       </main>
 
-      {/* 写真フルスクリーン */}
       {showPhotoViewer && record.photoUrl && (
         <PhotoViewer
           src={record.photoUrl}
-          alt={record.flowerName || '花の写真'}
+          alt={record.flowerName || '草花の写真'}
           onClose={() => setShowPhotoViewer(false)}
         />
       )}
 
-      {/* 削除確認モーダル */}
       <ConfirmModal
         isOpen={showDeleteModal}
         title="この記録を削除しますか？"

@@ -168,3 +168,15 @@
   color: #C0B8B0;
   letter-spacing: 0.04em;
 }
+
+/* 場所バッジ（ステータスバッジの隣） */
+.detail-source-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 16px;
+  background: #F0EDE8;
+  color: #8A8280;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  margin-left: 8px;
+}

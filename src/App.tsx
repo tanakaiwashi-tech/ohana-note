@@ -6,7 +6,7 @@ import { NewRecordPage, type SaveData } from './pages/NewRecordPage'
 import { DetailPage } from './pages/DetailPage'
 import { Toast } from './components/Toast'
 import { PageTransition } from './components/PageTransition'
-import { exportAsJson } from './utils/exportRecords'
+import { exportAsJson, importFromJson } from './utils/exportRecords'
 import './App.css'
 
 type Page =
@@ -22,7 +22,7 @@ function generateId(): string {
 }
 
 export default function App() {
-  const { records, isLoading, add, update, remove } = useFlowerRecords()
+  const { records, isLoading, add, update, remove, reload } = useFlowerRecords()
   const [page, setPage] = useState<Page>({ name: 'home' })
   const [navDir, setNavDir] = useState<NavDir>('none')
   const [navKey, setNavKey] = useState(0)
@@ -60,10 +60,11 @@ export default function App() {
       status: data.status,
       memo: data.memo,
       suggestions: data.suggestions,
+      sourceType: data.sourceType,
     }
     await add(record)
     navigate({ name: 'home' }, 'back')
-    showToast('記録しました 🌸')
+    showToast('記録しました')
   }
 
   const handleUpdate = async (updated: FlowerRecord) => {
@@ -75,6 +76,20 @@ export default function App() {
   const handleDelete = async (id: string) => {
     await remove(id)
     navigate({ name: 'home' }, 'back')
+  }
+
+  const handleImport = async (file: File) => {
+    try {
+      const { imported, skipped } = await importFromJson(file)
+      await reload()
+      if (imported > 0) {
+        showToast(`${imported}件を読み込みました${skipped > 0 ? `（${skipped}件スキップ）` : ''}`)
+      } else {
+        showToast('新しい記録はありませんでした')
+      }
+    } catch {
+      showToast('読み込みに失敗しました')
+    }
   }
 
   // 現在のページを描画
@@ -121,6 +136,7 @@ export default function App() {
         onNewRecord={() => navigate({ name: 'new' }, 'forward')}
         onSelectRecord={id => navigate({ name: 'detail', recordId: id }, 'forward')}
         onExport={() => exportAsJson(records)}
+        onImport={handleImport}
       />
     )
   }

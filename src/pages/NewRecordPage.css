@@ -88,3 +88,36 @@
   color: #B0A8A0;
   margin: 0;
 }
+
+/* どこで：2択セレクター */
+.source-type-selector {
+  display: flex;
+  gap: 8px;
+}
+
+.source-type-btn {
+  flex: 1;
+  padding: 10px 8px;
+  border-radius: 10px;
+  border: 1.5px solid #DDD9D4;
+  background: transparent;
+  color: #8A8280;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  letter-spacing: 0.01em;
+  text-align: center;
+  font-family: inherit;
+}
+
+.source-type-btn:hover {
+  border-color: #B0C8B0;
+  color: #5A7A5C;
+}
+
+.source-type-btn--selected {
+  background: #EAF0EA;
+  border-color: #B0C8B0;
+  color: #5A7A5C;
+  font-weight: 500;
+}

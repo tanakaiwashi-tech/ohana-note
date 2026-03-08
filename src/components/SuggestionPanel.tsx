@@ -8,24 +8,34 @@ type Props = {
 }
 
 export function SuggestionPanel({ suggestions, isLoading, onSelect }: Props) {
+  // 読み込み中
   if (isLoading) {
     return (
       <div className="suggestion-panel">
-        <div className="suggestion-label">候補を探しています…</div>
         <div className="suggestion-loading">
           <span></span>
           <span></span>
           <span></span>
         </div>
+        <p className="suggestion-loading-text">この草花の名前を探しています</p>
       </div>
     )
   }
 
-  if (suggestions.length === 0) return null
+  // 見つからなかった
+  if (suggestions.length === 0) {
+    return (
+      <div className="suggestion-panel suggestion-panel--unfound">
+        <p className="suggestion-unfound-text">名前はうまく見つかりませんでした</p>
+        <p className="suggestion-note">名前がわからなくても、そのまま残せます</p>
+      </div>
+    )
+  }
 
+  // 候補あり
   return (
     <div className="suggestion-panel">
-      <div className="suggestion-label">候補</div>
+      <div className="suggestion-label">近い名前</div>
       <div className="suggestion-list">
         {suggestions.map(s => (
           <button
@@ -38,7 +48,7 @@ export function SuggestionPanel({ suggestions, isLoading, onSelect }: Props) {
           </button>
         ))}
       </div>
-      <p className="suggestion-note">違う場合は下の入力欄に直接書けます</p>
+      <p className="suggestion-note">名前がわからなくても、そのまま残せます</p>
     </div>
   )
 }

@@ -49,7 +49,7 @@ export function PhotoUploader({ photoUrl, onChange }: Props) {
       />
       {photoUrl ? (
         <div className="photo-uploader-preview">
-          <img src={photoUrl} alt="選択した花の写真" />
+          <img src={photoUrl} alt="選択した草花の写真" />
           <button
             type="button"
             className="photo-uploader-change"
@@ -69,6 +69,7 @@ export function PhotoUploader({ photoUrl, onChange }: Props) {
           </div>
           <p className="photo-uploader-text">写真を選ぶ</p>
           <p className="photo-uploader-sub">カメラで撮るか、アルバムから選べます</p>
+          <p className="photo-uploader-hint">一輪を大きめに写すと名前が見つかりやすくなります</p>
         </div>
       )}
     </div>

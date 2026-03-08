@@ -54,6 +54,12 @@
   object-fit: cover;
   display: block;
   border-radius: 10px;
+  animation: photo-appear 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes photo-appear {
+  from { opacity: 0; transform: scale(1.015); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 .photo-uploader-change {
@@ -74,4 +80,13 @@
 
 .photo-uploader-change:hover {
   background: rgba(255, 255, 255, 0.96);
+}
+
+.photo-uploader-hint {
+  font-size: 10.5px;
+  color: #C0B8B0;
+  margin: 4px 0 0;
+  text-align: center;
+  letter-spacing: 0.01em;
+  line-height: 1.6;
 }

@@ -18,6 +18,11 @@ const PhotoPlaceholder = () => (
   </div>
 )
 
+const SOURCE_LABEL: Record<string, string> = {
+  home: '庭・ベランダ',
+  outing: '外で',
+}
+
 export function FlowerCard({ record, onClick, variant = 'list' }: Props) {
   const date = new Date(record.createdAt)
   const dateStr = date.toLocaleDateString('ja-JP', { month: 'long', day: 'numeric' })
@@ -28,7 +33,7 @@ export function FlowerCard({ record, onClick, variant = 'list' }: Props) {
       <article className="flower-card flower-card--grid" onClick={onClick}>
         <div className="flower-card-photo flower-card-photo--grid">
           {record.photoUrl
-            ? <img src={record.photoUrl} alt={record.flowerName || '花の写真'} />
+            ? <img src={record.photoUrl} alt={record.flowerName || '草花の写真'} />
             : <PhotoPlaceholder />
           }
         </div>
@@ -39,6 +44,9 @@ export function FlowerCard({ record, onClick, variant = 'list' }: Props) {
           <div className="flower-card-grid-meta">
             <span className="flower-card-status">{STATUS_LABELS[record.status]}</span>
             <span className="flower-card-grid-date">{dateStr}（{weekday}）</span>
+            {record.memo && (
+              <p className="flower-card-grid-memo">{record.memo}</p>
+            )}
           </div>
         </div>
       </article>
@@ -49,7 +57,7 @@ export function FlowerCard({ record, onClick, variant = 'list' }: Props) {
     <article className="flower-card" onClick={onClick}>
       <div className="flower-card-photo">
         {record.photoUrl
-          ? <img src={record.photoUrl} alt={record.flowerName || '花の写真'} />
+          ? <img src={record.photoUrl} alt={record.flowerName || '草花の写真'} />
           : <PhotoPlaceholder />
         }
       </div>
@@ -57,9 +65,14 @@ export function FlowerCard({ record, onClick, variant = 'list' }: Props) {
         <div className="flower-card-date">{dateStr}（{weekday}）</div>
         <div className="flower-card-name">{record.flowerName || '名前なし'}</div>
         <div className="flower-card-meta">
-          <span className="flower-card-status">{STATUS_LABELS[record.status]}</span>
+          <div className="flower-card-meta-top">
+            <span className="flower-card-status">{STATUS_LABELS[record.status]}</span>
+            {record.sourceType && (
+              <span className="flower-card-source">{SOURCE_LABEL[record.sourceType]}</span>
+            )}
+          </div>
           {record.memo && (
-            <span className="flower-card-memo">{record.memo}</span>
+            <p className="flower-card-memo">{record.memo}</p>
           )}
         </div>
       </div>

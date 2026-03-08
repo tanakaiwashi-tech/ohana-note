@@ -1,7 +1,7 @@
 {
-  "name": "お花ノート",
-  "short_name": "お花ノート",
-  "description": "花を見た時間を、写真とひとことで残せるアプリ",
+  "name": "草花ノート",
+  "short_name": "草花ノート",
+  "description": "草花のある時間を、写真とひとことで残せます",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

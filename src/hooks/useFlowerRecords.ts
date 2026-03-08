@@ -42,5 +42,10 @@ export function useFlowerRecords() {
     setRecords(prev => prev.filter(r => r.id !== id))
   }, [])
 
-  return { records, isLoading, add, update, remove }
+  const reload = useCallback(async () => {
+    const loaded = await dbLoadRecords()
+    setRecords(loaded)
+  }, [])
+
+  return { records, isLoading, add, update, remove, reload }
 }

@@ -3,13 +3,13 @@
   border-radius: 10px;
   padding: 14px 16px;
   border: 1px solid #EAE6E0;
-  animation: suggestion-in 0.24s ease;
+  animation: suggestion-in 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 @keyframes suggestion-in {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
@@ -17,12 +17,12 @@
   }
 }
 
+/* 「近い名前」ラベル */
 .suggestion-label {
   font-size: 11px;
   color: #A09890;
   font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0.05em;
   margin-bottom: 10px;
 }
 
@@ -55,38 +55,59 @@
   background: #E8F0E8;
 }
 
+/* 共通ノート（候補あり・なし共用） */
 .suggestion-note {
   font-size: 11px;
   color: #B0A8A0;
   margin: 0;
 }
 
-/* Loading dots */
+/* ローディング */
 .suggestion-loading {
   display: flex;
   gap: 6px;
   align-items: center;
-  padding: 4px 0;
+  padding: 2px 0 8px;
 }
 
 .suggestion-loading span {
   display: block;
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: #C8C0B8;
-  animation: dot-pulse 1.2s ease-in-out infinite;
+  animation: dot-pulse 1.4s ease-in-out infinite;
 }
 
 .suggestion-loading span:nth-child(2) {
-  animation-delay: 0.2s;
+  animation-delay: 0.22s;
 }
 
 .suggestion-loading span:nth-child(3) {
-  animation-delay: 0.4s;
+  animation-delay: 0.44s;
 }
 
 @keyframes dot-pulse {
-  0%, 60%, 100% { opacity: 0.3; transform: scale(0.9); }
+  0%, 60%, 100% { opacity: 0.25; transform: scale(0.88); }
   30% { opacity: 1; transform: scale(1); }
+}
+
+.suggestion-loading-text {
+  font-size: 13px;
+  color: #8A8280;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+/* 見つからなかった */
+.suggestion-panel--unfound {
+  background: transparent;
+  border-color: #EAE6E0;
+}
+
+.suggestion-unfound-text {
+  font-size: 13px;
+  color: #A09890;
+  margin: 0 0 6px;
+  letter-spacing: 0.01em;
 }
