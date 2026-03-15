@@ -1,6 +1,10 @@
 import { compressImage } from '../utils/compressImage'
 import './PhotoUploader.css'
 
+// Android は capture="environment" でカメラを直接起動できる
+// iOS は capture があると兄弟 input に干渉するため使わない
+const isAndroid = /android/i.test(navigator.userAgent)
+
 type Props = {
   photoUrl: string | null
   onChange: (dataUrl: string) => void
@@ -61,6 +65,7 @@ export function PhotoUploader({ photoUrl, onChange }: Props) {
               <input
                 type="file"
                 accept="image/*"
+                {...(isAndroid ? { capture: 'environment' } : {})}
                 onChange={handleChange}
                 className="photo-uploader-file-overlay"
                 aria-label="撮り直す"
@@ -93,6 +98,7 @@ export function PhotoUploader({ photoUrl, onChange }: Props) {
               <input
                 type="file"
                 accept="image/*"
+                {...(isAndroid ? { capture: 'environment' } : {})}
                 onChange={handleChange}
                 className="photo-uploader-file-overlay"
                 aria-label="撮影する"
