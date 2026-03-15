@@ -169,6 +169,51 @@
   letter-spacing: 0.04em;
 }
 
+/* クイック状態変更 */
+.detail-quick-status {
+  padding-top: 4px;
+}
+
+.detail-quick-status-label {
+  font-size: 11px;
+  color: #B0A8A0;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.detail-quick-status-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.detail-quick-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #DDD8D0;
+  background: none;
+  color: #7A7A7A;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  line-height: 1;
+}
+
+.detail-quick-chip:hover:not(.detail-quick-chip--active) {
+  background: #F5F2EE;
+  border-color: #C8C0B8;
+  color: #4A4A4A;
+}
+
+.detail-quick-chip--active {
+  background: #EAF2EA;
+  border-color: #9EC0A0;
+  color: #4A7A50;
+  font-weight: 500;
+  cursor: default;
+}
+
 /* 場所バッジ（ステータスバッジの隣） */
 .detail-source-badge {
   display: inline-block;

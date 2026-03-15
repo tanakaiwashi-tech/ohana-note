@@ -53,6 +53,7 @@ export function HomePage({ records, isLoading, onNewRecord, onSelectRecord, onEx
   )
   const [filterGroup, setFilterGroup] = useState<FilterGroup>('all')
   const [sourceFilter, setSourceFilter] = useState<SourceFilter>('all')
+  const [searchQuery, setSearchQuery] = useState('')
   const importRef = useRef<HTMLInputElement>(null)
 
   const toggleViewMode = () => {
@@ -75,10 +76,13 @@ export function HomePage({ records, isLoading, onNewRecord, onSelectRecord, onEx
 
   const activeFilter = FILTER_LABELS.find(f => f.key === filterGroup)!
   const hasSourceTypeData = records.some(r => r.sourceType !== undefined)
+  const isSearching = searchQuery.trim().length > 0
+  const normalizedQuery = searchQuery.trim().toLowerCase()
 
   const filteredRecords = records
     .filter(r => filterGroup === 'all' || activeFilter.statuses.includes(r.status))
     .filter(r => sourceFilter === 'all' || r.sourceType === sourceFilter)
+    .filter(r => !isSearching || r.flowerName.toLowerCase().includes(normalizedQuery))
 
   const groups = groupByMonth(filteredRecords)
 
@@ -182,7 +186,39 @@ export function HomePage({ records, isLoading, onNewRecord, onSelectRecord, onEx
           </div>
         ) : (
           <>
-            <div className="home-count">全{records.length}件</div>
+            {/* 名前検索 */}
+            <div className="home-search">
+              <svg className="home-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" strokeLinecap="round" />
+              </svg>
+              <input
+                type="search"
+                className="home-search-input"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="名前で探す"
+                aria-label="草花の名前で検索"
+              />
+              {isSearching && (
+                <button
+                  className="home-search-clear"
+                  onClick={() => setSearchQuery('')}
+                  aria-label="検索をクリア"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18" strokeLinecap="round" />
+                    <line x1="6" y1="6" x2="18" y2="18" strokeLinecap="round" />
+                  </svg>
+                </button>
+              )}
+            </div>
+
+            <div className="home-count">
+              {isSearching
+                ? `「${searchQuery.trim()}」 ${filteredRecords.length}件`
+                : `全${records.length}件`}
+            </div>
 
             {/* ステータスフィルター */}
             <div className="home-filter">
@@ -213,7 +249,9 @@ export function HomePage({ records, isLoading, onNewRecord, onSelectRecord, onEx
             )}
 
             {filteredRecords.length === 0 ? (
-              <p className="home-filter-empty">この条件の草花はまだありません</p>
+              <p className="home-filter-empty">
+                {isSearching ? `「${searchQuery.trim()}」は見つかりませんでした` : 'この条件の草花はまだありません'}
+              </p>
             ) : (
               groups.map(group => (
                 <section key={group.key} className="home-month-section">

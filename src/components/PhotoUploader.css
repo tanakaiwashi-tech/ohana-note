@@ -2,14 +2,8 @@
   border-radius: 12px;
   border: 2px dashed #D8D4CE;
   background: #FAFAF8;
-  cursor: pointer;
   transition: border-color 0.2s ease, background 0.2s ease;
   overflow: hidden;
-}
-
-.photo-uploader:hover {
-  border-color: #7A9E7E;
-  background: #F5FAF5;
 }
 
 .photo-uploader--has-photo {
@@ -21,7 +15,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: 32px 20px 28px;
   gap: 8px;
 }
 
@@ -30,20 +24,59 @@
   margin-bottom: 4px;
 }
 
-.photo-uploader-text {
-  font-size: 16px;
-  color: #4A4A4A;
+/* ── 2ボタン行 ── */
+.photo-uploader-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.photo-uploader-btn {
+  display: inline-block;
+  padding: 9px 20px;
+  border-radius: 20px;
+  border: 1.5px solid transparent;
+  font-size: 14px;
   font-weight: 500;
-  margin: 0;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.photo-uploader-sub {
-  font-size: 11px;
+.photo-uploader-btn--camera {
+  background: #5B7A6E;
+  color: #fff;
+  border-color: #5B7A6E;
+}
+
+.photo-uploader-btn--camera:hover {
+  background: #4a6a5e;
+  border-color: #4a6a5e;
+}
+
+.photo-uploader-btn--album {
+  background: transparent;
+  color: #5B7A6E;
+  border-color: #5B7A6E;
+}
+
+.photo-uploader-btn--album:hover {
+  background: #F0F5F2;
+}
+
+.photo-uploader-hint {
+  font-size: 10.5px;
   color: #C0B8B0;
-  margin: 0;
+  margin: 4px 0 0;
   text-align: center;
+  letter-spacing: 0.01em;
+  line-height: 1.6;
 }
 
+/* ── プレビュー ── */
 .photo-uploader-preview {
   position: relative;
 }
@@ -62,10 +95,16 @@
   to   { opacity: 1; transform: scale(1); }
 }
 
-.photo-uploader-change {
+.photo-uploader-change-row {
   position: absolute;
   bottom: 12px;
   right: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.photo-uploader-change {
+  display: inline-block;
   padding: 7px 14px;
   border-radius: 20px;
   border: none;
@@ -73,20 +112,38 @@
   backdrop-filter: blur(4px);
   color: #4A4A4A;
   font-size: 13px;
+  font-family: inherit;
   cursor: pointer;
   transition: background 0.15s ease;
   box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .photo-uploader-change:hover {
   background: rgba(255, 255, 255, 0.96);
 }
 
-.photo-uploader-hint {
-  font-size: 10.5px;
-  color: #C0B8B0;
-  margin: 4px 0 0;
-  text-align: center;
-  letter-spacing: 0.01em;
-  line-height: 1.6;
+/* ── オーバーレイ方式：input をボタン上に重ねてユーザーが直接タップ ── */
+.photo-uploader-btn-wrapper,
+.photo-uploader-change-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/*
+  file input をボタン/ラベルの上に 100% サイズで重ねる。
+  opacity: 0 で不可視だが、ビューポート内に実在する。
+  ユーザーのタップが直接この input に届く構造のため
+  Android Chrome・iOS Safari で最も安定する。
+*/
+.photo-uploader-file-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
 }

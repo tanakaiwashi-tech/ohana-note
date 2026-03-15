@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import type { FlowerRecord } from '../types/flower'
+import type { FlowerRecord, FlowerStatus } from '../types/flower'
 import { STATUS_LABELS, SOURCE_LABELS } from '../types/flower'
 import { Header } from '../components/Header'
 import { ConfirmModal } from '../components/ConfirmModal'
 import { PhotoViewer } from '../components/PhotoViewer'
 import './DetailPage.css'
+
+const STATUSES: FlowerStatus[] = ['bud', 'starting', 'best', 'full', 'ending', 'finished']
 
 type Props = {
   record: FlowerRecord
@@ -12,10 +14,11 @@ type Props = {
   onBack: () => void
   onEdit: (id: string) => void
   onDelete: (id: string) => void
+  onQuickStatus?: (id: string, status: FlowerStatus) => void
   onNavigate?: (id: string) => void
 }
 
-export function DetailPage({ record, records, onBack, onEdit, onDelete, onNavigate }: Props) {
+export function DetailPage({ record, records, onBack, onEdit, onDelete, onQuickStatus, onNavigate }: Props) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showPhotoViewer, setShowPhotoViewer] = useState(false)
 
@@ -107,6 +110,24 @@ export function DetailPage({ record, records, onBack, onEdit, onDelete, onNaviga
               </span>
             )}
           </div>
+
+          {onQuickStatus && (
+            <div className="detail-quick-status">
+              <div className="detail-quick-status-label">今の状態を変える</div>
+              <div className="detail-quick-status-chips">
+                {STATUSES.map(s => (
+                  <button
+                    key={s}
+                    className={`detail-quick-chip${record.status === s ? ' detail-quick-chip--active' : ''}`}
+                    onClick={() => record.status !== s && onQuickStatus(record.id, s)}
+                    aria-current={record.status === s ? 'true' : undefined}
+                  >
+                    {STATUS_LABELS[s]}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {record.memo && (
             <div className="detail-memo-section">

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import type { FlowerRecord } from './types/flower'
+import type { FlowerRecord, FlowerStatus } from './types/flower'
 import { useFlowerRecords } from './hooks/useFlowerRecords'
 import { HomePage } from './pages/HomePage'
 import { NewRecordPage, type SaveData } from './pages/NewRecordPage'
@@ -78,6 +78,13 @@ export default function App() {
     navigate({ name: 'home' }, 'back')
   }
 
+  const handleQuickStatus = useCallback(async (id: string, status: FlowerStatus) => {
+    const record = records.find(r => r.id === id)
+    if (!record) return
+    await update({ ...record, status })
+    showToast('状態を更新しました ✓')
+  }, [records, update, showToast])
+
   const handleImport = async (file: File) => {
     try {
       const { imported, skipped } = await importFromJson(file)
@@ -124,6 +131,7 @@ export default function App() {
           onBack={() => navigate({ name: 'home' }, 'back')}
           onEdit={id => navigate({ name: 'edit', recordId: id }, 'forward')}
           onDelete={handleDelete}
+          onQuickStatus={handleQuickStatus}
           onNavigate={id => navigate({ name: 'detail', recordId: id }, 'none')}
         />
       )

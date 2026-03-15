@@ -119,6 +119,7 @@ export function NewRecordPage({ onBack, initialRecord, onSave, onUpdate }: Props
                 suggestions={suggestions}
                 isLoading={loadingSuggestions}
                 onSelect={handleSelectSuggestion}
+                selectedName={flowerName}
               />
             )}
 

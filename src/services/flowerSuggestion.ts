@@ -1,60 +1,87 @@
+import Anthropic from '@anthropic-ai/sdk'
 import type { FlowerSuggestion } from '../types/flower'
 
-// モック候補データ（将来的にAI APIに差し替え可能）
-// 実際の画像認識では confidence は API が返す値になる
-const MOCK_SUGGESTION_SETS: FlowerSuggestion[][] = [
-  // 2件（自信あり）
-  [
-    { id: 's1', name: 'バラ', confidence: 0.86 },
-    { id: 's2', name: 'シャクヤク', confidence: 0.68 },
-  ],
-  // 3件
-  [
-    { id: 's1', name: 'チューリップ', confidence: 0.91 },
-    { id: 's2', name: 'アネモネ', confidence: 0.64 },
-    { id: 's3', name: 'ラナンキュラス', confidence: 0.53 },
-  ],
-  // 2件
-  [
-    { id: 's1', name: 'コスモス', confidence: 0.88 },
-    { id: 's2', name: 'マーガレット', confidence: 0.71 },
-  ],
-  // 1件（はっきり識別できた）
-  [
-    { id: 's1', name: 'ひまわり', confidence: 0.94 },
-  ],
-  // 2件
-  [
-    { id: 's1', name: 'サクラ', confidence: 0.87 },
-    { id: 's2', name: 'ウメ', confidence: 0.74 },
-  ],
-  // 3件
-  [
-    { id: 's1', name: 'アジサイ', confidence: 0.89 },
-    { id: 's2', name: 'ライラック', confidence: 0.67 },
-    { id: 's3', name: 'ブルースター', confidence: 0.55 },
-  ],
-  // 2件
-  [
-    { id: 's1', name: 'キキョウ', confidence: 0.83 },
-    { id: 's2', name: 'リンドウ', confidence: 0.69 },
-  ],
-  // 空（見つからなかった）
-  [],
-]
+let client: Anthropic | null = null
+
+function getClient(): Anthropic {
+  if (!client) {
+    client = new Anthropic({
+      apiKey: import.meta.env.VITE_ANTHROPIC_API_KEY,
+      dangerouslyAllowBrowser: true,
+    })
+  }
+  return client
+}
+
+type SupportedMediaType = 'image/jpeg' | 'image/png' | 'image/gif' | 'image/webp'
+const SUPPORTED_TYPES: SupportedMediaType[] = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+
+function parseDataUrl(dataUrl: string): { mediaType: SupportedMediaType; data: string } | null {
+  const match = dataUrl.match(/^data:([^;]+);base64,(.+)$/)
+  if (!match) return null
+  const mediaType = match[1] as SupportedMediaType
+  if (!SUPPORTED_TYPES.includes(mediaType)) return null
+  return { mediaType, data: match[2] }
+}
 
 /**
- * 草花の名前候補を取得する
- * 将来的には photoUrl を AI API（Claude Vision / Google Vision等）に送って候補を得る
- * 現在はモックデータをランダムに返す
+ * Claude Vision で草花の名前候補を取得する
+ * - 上位3候補まで、日本語名＋確信度を返す
+ * - API キーなし・エラー時は空配列を返してアプリを止めない
  */
 export async function getFlowerSuggestions(
-  _photoUrl: string
+  photoUrl: string
 ): Promise<FlowerSuggestion[]> {
-  // API呼び出しをシミュレート（0.9〜1.6秒のディレイ）
-  const delay = 900 + Math.random() * 700
-  await new Promise(resolve => setTimeout(resolve, delay))
+  if (!import.meta.env.VITE_ANTHROPIC_API_KEY) {
+    return []
+  }
 
-  const index = Math.floor(Math.random() * MOCK_SUGGESTION_SETS.length)
-  return MOCK_SUGGESTION_SETS[index]
+  const parsed = parseDataUrl(photoUrl)
+  if (!parsed) return []
+
+  try {
+    const response = await getClient().messages.create({
+      model: 'claude-opus-4-6',
+      max_tokens: 256,
+      messages: [
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'image',
+              source: {
+                type: 'base64',
+                media_type: parsed.mediaType,
+                data: parsed.data,
+              },
+            },
+            {
+              type: 'text',
+              text: `この写真に写っている草花・植物の名前を日本語で教えてください。
+上位3つまでの候補を確信度（0〜1）とともに、以下のJSON形式のみで返してください。
+植物が写っていない場合は candidates を空配列にしてください。
+
+{"candidates":[{"name":"植物名","confidence":0.9}]}`,
+            },
+          ],
+        },
+      ],
+    })
+
+    const text = response.content.find(b => b.type === 'text')?.text ?? ''
+    const jsonMatch = text.match(/\{[\s\S]*\}/)
+    if (!jsonMatch) return []
+
+    const result = JSON.parse(jsonMatch[0]) as {
+      candidates: { name: string; confidence: number }[]
+    }
+
+    return (result.candidates ?? []).slice(0, 3).map((c, i) => ({
+      id: `s${i + 1}`,
+      name: c.name,
+      confidence: Math.min(1, Math.max(0, c.confidence)),
+    }))
+  } catch {
+    return []
+  }
 }

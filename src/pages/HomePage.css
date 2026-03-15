@@ -118,6 +118,71 @@
   30% { opacity: 1; transform: scale(1); }
 }
 
+/* 名前検索バー */
+.home-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.home-search-icon {
+  position: absolute;
+  left: 11px;
+  color: #B0A8A0;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.home-search-input {
+  width: 100%;
+  padding: 9px 36px 9px 32px;
+  border: 1px solid #E5E0D8;
+  border-radius: 10px;
+  background: #FFFFFF;
+  font-size: 14px;
+  color: #2C2C2C;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.home-search-input::placeholder {
+  color: #C0B8B0;
+}
+
+.home-search-input:focus {
+  border-color: #A8C4A8;
+  box-shadow: 0 0 0 3px rgba(122, 158, 126, 0.12);
+}
+
+/* ブラウザデフォルトの × を非表示 */
+.home-search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.home-search-clear {
+  position: absolute;
+  right: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  color: #B0A8A0;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.home-search-clear:hover {
+  color: #7A7A7A;
+  background: #F0EDE8;
+}
+
 /* Record list */
 .home-count {
   font-size: 12px;

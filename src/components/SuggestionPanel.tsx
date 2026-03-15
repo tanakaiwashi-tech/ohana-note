@@ -5,9 +5,10 @@ type Props = {
   suggestions: FlowerSuggestion[]
   isLoading: boolean
   onSelect: (name: string) => void
+  selectedName?: string
 }
 
-export function SuggestionPanel({ suggestions, isLoading, onSelect }: Props) {
+export function SuggestionPanel({ suggestions, isLoading, onSelect, selectedName }: Props) {
   // 読み込み中
   if (isLoading) {
     return (
@@ -41,7 +42,7 @@ export function SuggestionPanel({ suggestions, isLoading, onSelect }: Props) {
           <button
             key={s.id}
             type="button"
-            className="suggestion-item"
+            className={`suggestion-item${selectedName === s.name ? ' suggestion-item--selected' : ''}`}
             onClick={() => onSelect(s.name)}
           >
             {s.name}

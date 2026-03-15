@@ -55,6 +55,13 @@
   background: #E8F0E8;
 }
 
+.suggestion-item--selected {
+  background: #EAF2EA;
+  border-color: #7A9E7E;
+  color: #4A7A4E;
+  font-weight: 500;
+}
+
 /* 共通ノート（候補あり・なし共用） */
 .suggestion-note {
   font-size: 11px;

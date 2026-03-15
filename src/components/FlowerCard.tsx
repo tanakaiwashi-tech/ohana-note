@@ -44,9 +44,6 @@ export function FlowerCard({ record, onClick, variant = 'list' }: Props) {
           <div className="flower-card-grid-meta">
             <span className="flower-card-status">{STATUS_LABELS[record.status]}</span>
             <span className="flower-card-grid-date">{dateStr}（{weekday}）</span>
-            {record.memo && (
-              <p className="flower-card-grid-memo">{record.memo}</p>
-            )}
           </div>
         </div>
       </article>
