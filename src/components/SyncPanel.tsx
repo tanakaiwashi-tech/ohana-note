@@ -5,9 +5,11 @@ import './SyncPanel.css'
 type Props = {
   syncStatus: SyncStatus
   lastSynced: string | null
+  bulkSyncProgress: { done: number; total: number } | null
   onClose: () => void
   onSetup: (passcode: string) => Promise<RegisterResult>
   onRetry: () => Promise<void>
+  onSyncAll: () => void
 }
 
 function formatLastSynced(iso: string): string {
@@ -19,7 +21,7 @@ function formatLastSynced(iso: string): string {
   })
 }
 
-export function SyncPanel({ syncStatus, lastSynced, onClose, onSetup, onRetry }: Props) {
+export function SyncPanel({ syncStatus, lastSynced, bulkSyncProgress, onClose, onSetup, onRetry, onSyncAll }: Props) {
   const [view, setView] = useState<'status' | 'setup'>(
     syncStatus === 'not_setup' || syncStatus === 'needs_setup' ? 'setup' : 'status'
   )
@@ -104,6 +106,9 @@ export function SyncPanel({ syncStatus, lastSynced, onClose, onSetup, onRetry }:
                   <p className="sync-sheet-sub">最後の共有：{formatLastSynced(lastSynced)}</p>
                 )}
                 <button className="sync-btn sync-btn--cancel" onClick={onClose}>閉じる</button>
+                <button className="sync-btn sync-btn--text" onClick={onSyncAll}>
+                  これまでの記録もすべて共有する
+                </button>
               </>
             )}
 
@@ -116,7 +121,13 @@ export function SyncPanel({ syncStatus, lastSynced, onClose, onSetup, onRetry }:
                   </svg>
                 </div>
                 <p className="sync-sheet-title">送信中です...</p>
-                <p className="sync-sheet-sub">しばらくお待ちください</p>
+                {bulkSyncProgress ? (
+                  <p className="sync-sheet-sub">
+                    {bulkSyncProgress.done} / {bulkSyncProgress.total} 件
+                  </p>
+                ) : (
+                  <p className="sync-sheet-sub">しばらくお待ちください</p>
+                )}
               </>
             )}
 

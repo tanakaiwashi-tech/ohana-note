@@ -43,6 +43,7 @@ export default function App() {
   )
   const [pendingRecord, setPendingRecord] = useState<FlowerRecord | null>(null)
   const [showSyncPanel, setShowSyncPanel] = useState(false)
+  const [bulkSyncProgress, setBulkSyncProgress] = useState<{ done: number; total: number } | null>(null)
 
   /** 方向付きページ遷移 */
   const navigate = useCallback((newPage: Page, dir: NavDir) => {
@@ -87,18 +88,31 @@ export default function App() {
     }
   }, [syncStatus])
 
-  /** 設定コード入力後の登録処理 */
+  /** 全記録を順番に一括同期する */
+  const doSyncAll = useCallback(async (allRecords: FlowerRecord[]) => {
+    if (allRecords.length === 0) { setSyncStatus('synced'); return }
+    setSyncStatus('syncing')
+    setBulkSyncProgress({ done: 0, total: allRecords.length })
+    for (let i = 0; i < allRecords.length; i++) {
+      await syncRecord(allRecords[i])
+      setBulkSyncProgress({ done: i + 1, total: allRecords.length })
+    }
+    const now = new Date().toISOString()
+    localStorage.setItem('ohana-sync-last-synced', now)
+    setLastSynced(now)
+    setSyncStatus('synced')
+    setBulkSyncProgress(null)
+    setPendingRecord(null)
+  }, [])
+
+  /** 設定コード入力後の登録処理 — 成功時は全記録を一括同期 */
   const handleSetup = useCallback(async (passcode: string): Promise<RegisterResult> => {
     const result = await registerDevice(passcode)
     if (result === 'ok') {
-      if (pendingRecord) {
-        doSync(pendingRecord)
-      } else {
-        setSyncStatus('synced')
-      }
+      doSyncAll(records)  // 既存の全記録を一括同期（fire-and-forget）
     }
     return result
-  }, [pendingRecord, doSync])
+  }, [records, doSyncAll])
 
   /** 「もう一度送る」リトライ */
   const handleRetry = useCallback(async () => {
@@ -106,6 +120,13 @@ export default function App() {
       await doSync(pendingRecord)
     }
   }, [pendingRecord, doSync])
+
+  /** 「これまでの記録もすべて共有する」手動一括同期 */
+  const handleSyncAll = useCallback(() => {
+    if (syncStatus === 'unavailable') return
+    setShowSyncPanel(false)
+    doSyncAll(records)
+  }, [syncStatus, records, doSyncAll])
 
   const handleSave = async (data: SaveData) => {
     const record: FlowerRecord = {
@@ -231,9 +252,11 @@ export default function App() {
         <SyncPanel
           syncStatus={syncStatus}
           lastSynced={lastSynced}
+          bulkSyncProgress={bulkSyncProgress}
           onClose={() => setShowSyncPanel(false)}
           onSetup={handleSetup}
           onRetry={handleRetry}
+          onSyncAll={handleSyncAll}
         />
       )}
     </>
