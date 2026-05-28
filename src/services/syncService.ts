@@ -30,10 +30,7 @@ async function getAccessToken(): Promise<string | null> {
 
 export async function registerDevice(passcode: string): Promise<RegisterResult> {
   const token = await getAccessToken()
-  if (!token) {
-    console.error('[ohana-sync] registerDevice: token取得失敗 → Anonymous Auth が有効か確認してください')
-    return 'error'
-  }
+  if (!token) return 'error'
   try {
     const res = await fetch('/api/register-device', {
       method: 'POST',

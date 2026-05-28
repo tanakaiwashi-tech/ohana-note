@@ -1,18 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.VITE_SUPABASE_URL
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-const setupPasscode = process.env.SETUP_PASSCODE
-
-// 起動時に環境変数の有無だけ確認（値は出力しない）
-console.log('[register-device] env check:', {
-  VITE_SUPABASE_URL: !!supabaseUrl,
-  SUPABASE_SERVICE_ROLE_KEY: !!serviceRoleKey,
-  SETUP_PASSCODE: !!setupPasscode,
-})
-
-const supabaseAdmin = createClient(supabaseUrl!, serviceRoleKey!)
+const supabaseAdmin = createClient(
+  process.env.VITE_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).end()
@@ -39,7 +31,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   // 設定コード確認
   const { passcode } = req.body as { passcode?: string }
-  if (!passcode || passcode !== setupPasscode) {
+  if (!passcode || passcode !== process.env.SETUP_PASSCODE) {
     return res.status(403).json({ error: 'Invalid passcode' })
   }
 
