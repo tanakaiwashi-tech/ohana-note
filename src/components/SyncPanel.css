@@ -1,0 +1,155 @@
+.sync-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.28);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 200;
+  animation: sync-overlay-in 0.18s ease;
+}
+
+@keyframes sync-overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.sync-sheet {
+  width: 100%;
+  max-width: 480px;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 32px 24px 48px;
+  animation: sync-sheet-in 0.22s cubic-bezier(0.32, 0.72, 0, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+@keyframes sync-sheet-in {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.sync-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.sync-icon--ok {
+  background: #EDF4EE;
+  color: var(--color-accent);
+}
+
+.sync-icon--warn {
+  background: #FDF4E7;
+  color: #C07A1A;
+}
+
+.sync-icon--syncing {
+  background: #F0F4FF;
+  color: #6B8CCC;
+  animation: sync-spin 1.4s linear infinite;
+}
+
+@keyframes sync-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.sync-sheet-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text);
+  text-align: center;
+  margin: 0 0 8px;
+  line-height: 1.5;
+}
+
+.sync-sheet-sub {
+  font-size: 13px;
+  color: var(--color-text-sub);
+  text-align: center;
+  margin: 0 0 24px;
+  line-height: 1.65;
+}
+
+.sync-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sync-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--color-text);
+  background: var(--color-bg);
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.sync-input:focus {
+  border-color: var(--color-accent);
+}
+
+.sync-error {
+  font-size: 13px;
+  color: #C05050;
+  text-align: center;
+  margin: 0;
+}
+
+.sync-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.02em;
+  transition: opacity 0.12s ease;
+  margin-top: 2px;
+}
+
+.sync-btn:active {
+  opacity: 0.72;
+}
+
+.sync-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.sync-btn--primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.sync-btn--cancel {
+  background: var(--color-beige);
+  color: #6A6A6A;
+}
+
+.sync-btn--text {
+  background: transparent;
+  color: var(--color-text-sub);
+  font-size: 13px;
+  padding: 10px;
+}

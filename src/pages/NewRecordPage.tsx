@@ -22,9 +22,10 @@ type Props = {
   initialRecord?: FlowerRecord
   onSave: (data: SaveData) => void
   onUpdate?: (updated: FlowerRecord) => void
+  knownNames?: string[]
 }
 
-export function NewRecordPage({ onBack, initialRecord, onSave, onUpdate }: Props) {
+export function NewRecordPage({ onBack, initialRecord, onSave, onUpdate, knownNames = [] }: Props) {
   const isEditMode = Boolean(initialRecord)
 
   const [photoUrl, setPhotoUrl] = useState<string | null>(
@@ -52,7 +53,11 @@ export function NewRecordPage({ onBack, initialRecord, onSave, onUpdate }: Props
     setSuggestionsAttempted(false)
     setLoadingSuggestions(true)
     try {
-      const result = await getFlowerSuggestions(url)
+      const result = await getFlowerSuggestions(url, {
+        month: new Date().getMonth() + 1,
+        sourceType,
+        knownNames,
+      })
       setSuggestions(result)
     } finally {
       setLoadingSuggestions(false)

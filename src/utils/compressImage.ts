@@ -3,8 +3,8 @@
  * - 長辺を最大 MAX_PX px に収める（元が小さければそのまま）
  * - JPEG quality: 0.82（画質と容量のバランス）
  */
-const MAX_PX = 1200
-const QUALITY = 0.82
+const MAX_PX = 1600
+const QUALITY = 0.88
 
 export function compressImage(dataUrl: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -35,6 +35,9 @@ export function compressImage(dataUrl: string): Promise<string> {
         return
       }
 
+      // PNG透過部分が黒くならないよう白背景を敷く
+      ctx.fillStyle = '#ffffff'
+      ctx.fillRect(0, 0, targetW, targetH)
       ctx.drawImage(img, 0, 0, targetW, targetH)
       resolve(canvas.toDataURL('image/jpeg', QUALITY))
     }

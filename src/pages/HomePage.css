@@ -40,6 +40,21 @@
   background: #F0EDE8;
 }
 
+/* 同期ボタン状態別カラー */
+.home-sync-btn--synced { color: #5A7A5C; }
+.home-sync-btn--not_setup { color: #B0A898; }
+.home-sync-btn--needs_setup,
+.home-sync-btn--failed { color: #C07A1A; }
+.home-sync-btn--syncing { color: #6B8CCC; }
+
+@keyframes home-sync-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.home-sync-spin {
+  animation: home-sync-spin 1.4s linear infinite;
+}
+
 /* Empty state */
 .home-empty {
   display: flex;

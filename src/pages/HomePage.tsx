@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import type { FlowerRecord, FlowerStatus } from '../types/flower'
+import type { SyncStatus } from '../services/syncService'
 import { Header } from '../components/Header'
 import { FlowerCard } from '../components/FlowerCard'
 import './HomePage.css'
@@ -28,6 +29,8 @@ type Props = {
   onSelectRecord: (id: string) => void
   onExport: () => void
   onImport: (file: File) => void
+  syncStatus?: SyncStatus
+  onOpenSync?: () => void
 }
 
 /** records（新しい順）を月ごとにグループ化する */
@@ -47,7 +50,7 @@ function groupByMonth(records: FlowerRecord[]) {
   return groups
 }
 
-export function HomePage({ records, isLoading, onNewRecord, onSelectRecord, onExport, onImport }: Props) {
+export function HomePage({ records, isLoading, onNewRecord, onSelectRecord, onExport, onImport, syncStatus, onOpenSync }: Props) {
   const [viewMode, setViewMode] = useState<ViewMode>(
     () => (localStorage.getItem('ohana-view-mode') as ViewMode) ?? 'list'
   )
@@ -92,6 +95,30 @@ export function HomePage({ records, isLoading, onNewRecord, onSelectRecord, onEx
         title="草花ノート"
         rightElement={
           <div className="home-header-actions">
+            {syncStatus && syncStatus !== 'unavailable' && onOpenSync && (
+              <button
+                className={`home-view-toggle home-sync-btn home-sync-btn--${syncStatus}`}
+                onClick={onOpenSync}
+                aria-label="共有の設定"
+              >
+                {syncStatus === 'syncing' ? (
+                  <svg className="home-sync-spin" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M20 16.5A4.5 4.5 0 0016 12H5.5a3.5 3.5 0 000 7H16" strokeLinecap="round" />
+                    <path d="M12 6l2-2-2-2M12 6A6 6 0 016 12" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                ) : syncStatus === 'synced' ? (
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M20 16.5A4.5 4.5 0 0016 12H5.5a3.5 3.5 0 000 7H16" strokeLinecap="round" />
+                    <path d="M9 19l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                ) : (
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M20 16.5A4.5 4.5 0 0016 12H5.5a3.5 3.5 0 000 7H16" strokeLinecap="round" />
+                    <path d="M15 8V5M15 12v.5" strokeLinecap="round" />
+                  </svg>
+                )}
+              </button>
+            )}
             {records.length > 0 && (
               <button
                 className="home-view-toggle"
